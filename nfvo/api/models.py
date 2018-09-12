@@ -26,17 +26,17 @@ class PackageOnboardingStateType(PackageOnboardingStateTypeEnum):
 
 # SOL005v020408, 9.5.2.5    Type: VnfPkgInfo
 class VnfPkgInfoModel(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.CharField(primary_key=True, max_length=255, editable=False) # Todo: what type shall an id be?
     vnfdId = models.CharField(max_length=255, blank=True)
     vnfProvider = models.CharField(max_length=255, blank=True)
     vnfProductName = models.CharField(max_length=255, blank=True)
     vnfSoftwareVersion = models.CharField(max_length=255, blank=True)
     vnfdVersion = models.CharField(max_length=255, blank=True)
     checksum = models.CharField(max_length=255, blank=True)
-    softwareImages = models.ManyToManyField('self')
-    additionalArtifacts = models.ManyToManyField('self')
-    onboardingState = models.CharField(max_length=20, choices=PackageOnboardingStateTypeEnum.choices(),
-                                       default=PackageOnboardingStateType.INVALID)
+    #softwareImages = models.ManyToManyField('self')     # Todo: doesn't work - at least with the GUI
+    #additionalArtifacts = models.ManyToManyField('self') # Todo: doesn't work - at least with the GUI
+    onboardingState = models.CharField(max_length=255, choices=PackageOnboardingStateTypeEnum.choices(),
+                                       default=PackageOnboardingStateType.INVALID) # Todo: doesn't work - at least with default view
     # operationalState
     # usageState
     # userDefinedData

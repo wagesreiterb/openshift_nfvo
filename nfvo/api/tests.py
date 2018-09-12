@@ -3,11 +3,11 @@ import uuid
 from .models import VnfPkgInfoModel
 
 
-class ModelTestCase(TestCase):
+class VnfPkgInfoModelTestCase(TestCase):
     def setUp(self):
         self.valid_VnfPkgInfo = {
-            'id': uuid.uuid4(),
-            'vnfdId': uuid.uuid4(),
+            'id': '123',
+            'vnfdId': '234',
             'vnfProvider': 'Wagesreiter Inc.',
             'vnfProductName': 'my First VNF Package',
             'vnfSoftwareVersion' : '1.0',
@@ -16,8 +16,11 @@ class ModelTestCase(TestCase):
             'softwareImages' : ["softwareImage One", "softwareImages Two", "softwareImage Three"],
         }
 
+        self.VnfPkgInfo = VnfPkgInfoModel(self.valid_VnfPkgInfo)
+
     def test_model_can_create_a_VnfPkgInfoModel(self):
         old_count = VnfPkgInfoModel.objects.count()
-        self.valid_VnfPkgInfo.save()
+        self.VnfPkgInfo.save()
+        print(self.VnfPkgInfo)
         new_count = VnfPkgInfoModel.objects.count()
         self.assertNotEqual(old_count, new_count)
