@@ -18,4 +18,7 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+
+    # {apiRoot}/vnfpkgm/v1/vnf_packages; SOL005v02.04.08_cm, 9.4.2; Resource: VNF packages
 ]
