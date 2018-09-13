@@ -38,8 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_swagger',   # openAPI
     'api',
 ]
+
+SWAGGER_SETTINGS = {
+    "exclude_namespaces": ["/openapi/"],    #  List URL namespaces to ignore
+}
+
+# Todo: for permissions - needs to be checked
+# https://hirelofty.com/blog/auto-generate-swagger-docs-your-django-api/
+#REST_FRAMEWORK = {
+#    'DEFAULT_AUTHENTICATION_CLASSES': [
+#        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#    ],
+#}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
