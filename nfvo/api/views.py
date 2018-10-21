@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.schemas import SchemaGenerator
@@ -25,9 +25,9 @@ class CreateView(generics.ListCreateAPIView):
 
 
 class GetPatchDeleteAPIView(mixins.RetrieveModelMixin,
-                                   mixins.UpdateModelMixin,
-                                   mixins.DestroyModelMixin,
-                                   generics.GenericAPIView):
+                            mixins.UpdateModelMixin,
+                            mixins.DestroyModelMixin,
+                            generics.GenericAPIView):
     """
     get:
         Query VNF Package Info
@@ -48,7 +48,20 @@ class GetPatchDeleteAPIView(mixins.RetrieveModelMixin,
         return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        # http: // www.django - rest - framework.org / api - guide / status - codes /
+        instance = self.get_object()
+        if instance.usageState != 'NOT_IN_USE':                       # SOL005v020408 9.3.6
+            error_string="ERROR: VnfPkgInfo is in use, usageState = " + instance.usageState
+            print(error_string)      # Todo: shall be logged
+            return Response(error_string, status=status.HTTP_422_UNPROCESSABLE_ENTITY)  # Todo: might be wrong, not specified in SOL005v020408 9.3.6
+        elif instance.operationalState != 'DISABLED':                 # SOL005v020408 9.3.6
+            error_string="ERROR: VnfPkgInfo is enabled, operationalState = " + instance.operationalState
+            print(error_string)      # Todo: shall be logged
+            return Response(error_string,
+                            # headers={"Location": "http://127.0.0.1/vnfpkgm/v1/vnf_packages/"},
+                            status=status.HTTP_422_UNPROCESSABLE_ENTITY)  # Todo: might be wrong, not specified in SOL005v020408 9.3.6
+        else:
+            return self.destroy(request, *args, **kwargs)
 
 
 # class based openAPI
