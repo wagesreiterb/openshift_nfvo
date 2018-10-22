@@ -55,11 +55,19 @@ class VnfPkgInfoModel(models.Model):
     usageState = models.CharField(max_length=25, choices=VNF_PACKAGE_USAGE_STATE_CHOICES, default='NOT_IN_USE')
     url = models.CharField(max_length=255, blank=True)
 
-    # operationalState
-    # usageState
     # userDefinedData
     # _links
     # > self
     # > vnfd
     # > packageContent
 
+
+# https://blog.vivekshukla.xyz/uploading-file-using-api-django-rest-framework/
+class VnfPkgModel(models.Model):
+    vnfPkgInfo = models.OneToOneField(
+        VnfPkgInfoModel,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    file = models.FileField(blank=False, null=False)
+    timestamp = models.DateTimeField(auto_now_add=True)

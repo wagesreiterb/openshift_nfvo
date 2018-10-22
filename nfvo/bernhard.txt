@@ -1,0 +1,25 @@
+how to erase the db and migrate from scratch
+============================================
+(https://stackoverflow.com/questions/29888046/django-1-8-create-initial-migrations-for-existing-schema/33761422)
+- erase everything inside "migrations"
+- python manage.py migrate --fake-initial
+- python manage.py makemigrations api
+- python manage.py migrate --fake-initial
+
+
+create VnfPackageInfo
+=====================
+curl -X POST "http://127.0.0.1:8000/vnfpkgm/v1/vnf_packages/" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json"\
+    -H  "X-CSRFToken: CVePEZabbidmzZN2m4KExdbOHLsFPLRMTi7tuNWzAeGe7pShUF4wcD5DEtR90kzy"\
+    -d "{   \"vnfdId\": \"4\",    \
+            \"vnfProvider\": \"aaa\",    \
+            \"vnfProductName\": \"myProduct\",    \
+            \"vnfSoftwareVersion\": \"1.9\",    \
+            \"vnfdVersion\": \"1.0\",    \
+            \"checksum\": \"123\",    \
+            \"onboardingState\": \"CREATED\",    \
+            \"operationalState\": \"DISABLED\",    \
+            \"usageState\": \"NOT_IN_USE\"  \
+        }"

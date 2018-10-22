@@ -133,3 +133,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# directory where VNF-Packages are going to be saved after an upload
+# Todo: it might be better to save the packages somewhere in the cloud
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
