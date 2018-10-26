@@ -160,7 +160,7 @@ def extract_zipfile(vnf_pkg_path, vnf_pkg_filename):
     # https: // www.geeksforgeeks.org / working - zip - files - python /
     # Todo: shall run in its own thread in order not to block the api
     #
-    fully_qualified_file_name = str(vnf_pkg_path) + '/' + str(vnf_pkg_filename) + "bled"
+    fully_qualified_file_name = str(vnf_pkg_path) + '/' + str(vnf_pkg_filename)
     print("path_file:", fully_qualified_file_name)
     vnf_pkg_directory = fully_qualified_file_name[:-4]  # Todo: check if file has the extension .zip
     print("vnf_pkg_directory:", vnf_pkg_directory)
@@ -169,10 +169,8 @@ def extract_zipfile(vnf_pkg_path, vnf_pkg_filename):
     with ZipFile(fully_qualified_file_name, 'r') as zip:
         # printing all the contents of the zip file
         zip.printdir()
-
         # extracting all the files
         print('Extracting all the files now...')
-        x = zip.extractall(path=vnf_pkg_directory)
-        print("xxx:", x)
+        zip.extractall(path=vnf_pkg_directory)
         print('Done!')
 
