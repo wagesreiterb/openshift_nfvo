@@ -11,6 +11,9 @@ from rest_framework import mixins
 from zipfile import ZipFile
 import logging
 from django.conf import settings
+import pika
+import os
+import json
 
 
 # https://lincolnloop.com/blog/django-logging-right-way/
@@ -101,13 +104,26 @@ class VnfPackageContentView(generics.GenericAPIView,
         if file_serializer.is_valid():
             # https://medium.com/profil-software-blog/10-things-you-need-to-know-to-effectively-use-django-rest-framework-7db7728910e0
             file_serializer.save(vnfPkgInfo=vnf_pkg_info_instance)
+
+            #################### this needs to be done in a separate thread ######################
+            #
+            ######################################################################################
+            # extract zipfile
+            #
             vnf_pkg_instance = VnfPkgModel.objects.get(pk=vnf_pkg_info_id)
-            vnf_pkg_filename = vnf_pkg_instance.file
+            vnf_pkg_file = vnf_pkg_instance.file
             vnf_pkg_path = getattr(settings, "MEDIA_ROOT", None)
+            vnf_pkg_filename = str(vnf_pkg_file)
             try:
-                extract_zipfile(vnf_pkg_path, vnf_pkg_filename)
+                extract_zipfile(vnf_pkg_path, vnf_pkg_file)
             except Exception as e:
                 print(e)
+            #
+            ######################################################################################
+            #
+            send_message(vnf_pkg_path, vnf_pkg_filename)
+
+
 
             return Response(file_serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
@@ -155,12 +171,12 @@ class SwaggerSchemaView(APIView):
         return Response(schema)
 
 
-def extract_zipfile(vnf_pkg_path, vnf_pkg_filename):
+def extract_zipfile(vnf_pkg_path, vnf_pkg_file):
     # extract zipfile
     # https: // www.geeksforgeeks.org / working - zip - files - python /
     # Todo: shall run in its own thread in order not to block the api
     #
-    fully_qualified_file_name = str(vnf_pkg_path) + '/' + str(vnf_pkg_filename)
+    fully_qualified_file_name = str(vnf_pkg_path) + '/' + str(vnf_pkg_file)
     print("path_file:", fully_qualified_file_name)
     vnf_pkg_directory = fully_qualified_file_name[:-4]  # Todo: check if file has the extension .zip
     print("vnf_pkg_directory:", vnf_pkg_directory)
@@ -174,3 +190,25 @@ def extract_zipfile(vnf_pkg_path, vnf_pkg_filename):
         zip.extractall(path=vnf_pkg_directory)
         print('Done!')
 
+
+def send_message(vnf_pkg_path, vnf_pkg_filename):
+    # Parse CLODUAMQP_URL (fallback to localhost)
+    url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@172.17.0.2/%2f')
+    params = pika.URLParameters(url)
+    params.socket_timeout = 5
+
+    connection = pika.BlockingConnection(params)  # Connect to CloudAMQP
+    channel = connection.channel()  # start a channel
+    channel.queue_declare(queue='docker')  # Declare a queue
+    # send a message
+
+    data = {
+        "command": "extract",
+        "vnf_pkg_path": vnf_pkg_path,
+        "vnf_pkg_filename": str(vnf_pkg_filename),
+    }
+    message = json.dumps(data)
+
+    channel.basic_publish(exchange='', routing_key='docker', body=message)
+    print("[x] Message sent to consumer")
+    connection.close()
