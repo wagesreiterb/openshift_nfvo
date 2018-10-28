@@ -1,0 +1,10 @@
+metadata:
+vnf_product_name: vVNFtest
+vnf_provider_id: Wagesreiter Inc.
+vnf_package_version: 1.0
+vnf_release_date_time: 2018-09-10T16:52+02:00
+
+non_mano_artifact_sets:
+  prv.myVNF.install:         
+    Source:   Scripts/install.sh
+

@@ -1,0 +1,8 @@
+TOSCA-Meta-File-Version: 1.0
+CSAR-Version: 1.1
+Created-by: Bernhard Wagesreiter
+Entry-Definitions: Definitions/myVNF.yaml
+Entry-Change-Log: Files/ChangeLog.txt
+Entry-Tests: Files/Tests
+Entry-Licenses: Files/Licenses/myLicenses.txt
+Entry-Certificate: Files/myVNF.cert

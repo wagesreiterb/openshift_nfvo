@@ -1,0 +1,1 @@
+When the VNF is instaciated python should be installed and a script called doit.sh shall be running.
