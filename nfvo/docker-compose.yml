@@ -1,13 +1,23 @@
+# https://gist.github.com/UsamaAshraf/009e92d69ed0ef6dba66e534ca3d7bdc
 version: "3.2"
 
 services:
   rabbitmq-server:
-    image: rabbitmq-server:3-management
+    container_name: 'rabbitmq-server'
+    image: rabbitmq:3-management
+    networks:
+      frontend:
+        ipv4_address: 172.20.0.2
     ports:
     - "15672:15672"
 
   nfvo-api:
-    build: ./python-service
+    container_name: 'nfvo'
+    # build: ./python-service
+    build: .
+    networks:
+      frontend:
+        ipv4_address: 172.20.0.3
     # 'rabbitmq-server' will be available as a network reference inside this service
     # and this service will start only after the RabbitMQ service does.
     depends_on:
@@ -17,11 +27,18 @@ services:
     # Map port 3000 on the host machine to port 3000 of the container.
     # This will be used to receive HTTP requests made to the service.
     ports:
-      - "3000:3000"
+      - "8000:8000"
     volumes:
-      - './python-service:/python-service'
+      - './media:/media'
 
 
 # Host volumes used to store code.
 volumes:
   python-service:
+
+
+networks:
+  frontend:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24

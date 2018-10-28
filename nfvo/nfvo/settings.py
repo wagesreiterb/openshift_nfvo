@@ -25,7 +25,8 @@ SECRET_KEY = 'tqf7tp-oo6c7vuo2678(b7=w49&iot1p%#m274e_b+qzm=h45j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.17.0.2']
+# Todo: hardcoded IP seems to be not a good idea
+ALLOWED_HOSTS = ['172.20.0.3']
 
 
 # Application definition
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework_swagger',   # openAPI
     'api',
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 SWAGGER_SETTINGS = {
     "exclude_namespaces": ["/openapi/"],    #  List URL namespaces to ignore

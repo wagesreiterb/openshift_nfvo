@@ -49,6 +49,13 @@ get IP of a running container
 $ docker inspect df12e152d25c | grep '"IPAddress"' | head -n 1
             "IPAddress": "172.17.0.2",
 
+# remove all Docker container which are not running
+$ docker rm -v $(docker ps -a -q)
+
+# remove all images without at least one container associated to them.
+$ docker image prune -a
+
+
 $ docker build -t django-nfvo .
 § docker run -d django-nfvo
 
@@ -56,6 +63,7 @@ $ docker build -t django-nfvo .
 ############
 # RabbitMQ #
 ############
+# run rabbitmq-server
 docker run -d --hostname my-rabbit --name some-rabbit -p 8080:15672 rabbitmq:3-management
 (access via http://localhost:8080/)
 
@@ -65,7 +73,6 @@ listeners.tcp.default = 5672
 hipe_compile = false
 management.listener.port = 15672
 management.listener.ssl = false
-
 
 
 ##########

@@ -24,7 +24,7 @@ def pdf_process_function(msg):
 
 
 # Access the CLODUAMQP_URL environment variable and parse it (fallback to localhost)
-url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@172.17.0.2:5672/%2f')
+url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@172.20.0.2:5672/%2f')
 params = pika.URLParameters(url)
 connection = pika.BlockingConnection(params)
 channel = connection.channel() # start a channel
