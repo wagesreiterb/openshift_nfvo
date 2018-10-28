@@ -1,10 +1,12 @@
 import pika
 import os
-import time
 import json
 
 
-def pdf_process_function(msg):
+RABBITMQ_SERVER = '172.20.0.2'  # hostname of rabbitmq-server
+
+
+def process_function(msg):
     print("   processing...")
     print("   Received %r" % msg)
 
@@ -24,7 +26,7 @@ def pdf_process_function(msg):
 
 
 # Access the CLODUAMQP_URL environment variable and parse it (fallback to localhost)
-url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@172.20.0.2:5672/%2f')
+url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@' + RABBITMQ_SERVER + ':5672/%2f')
 params = pika.URLParameters(url)
 connection = pika.BlockingConnection(params)
 channel = connection.channel() # start a channel
@@ -33,7 +35,7 @@ channel.queue_declare(queue='docker') # Declare a queue
 
 # create a function which is called on incoming messages
 def callback(ch, method, properties, body):
-    pdf_process_function(body)
+    process_function(body)
 
 
 # set up subscription on the queue

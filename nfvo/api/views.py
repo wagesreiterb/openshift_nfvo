@@ -20,6 +20,10 @@ import json
 logger = logging.getLogger(__name__)
 
 
+# Todo: config shall be at somewhere central
+RABBITMQ_SERVER = 'rabbitmq-server'  # hostname of rabbitmq-server
+
+
 class VnfPkgInfoView(generics.ListCreateAPIView):
     # CreateView
     """
@@ -141,17 +145,16 @@ class VnfPackageContentView(generics.GenericAPIView,
 
 
     # post for indirect mode via URI
-    # Todo: not finished
-    def post(self, request, *args, **kwargs):
-        file_serializer = VnfPackageSerializer(data=request.data)
-        if file_serializer.is_valid():
-            file_serializer.save()
-            return Response(file_serializer.data, status=status.HTTP_202_ACCEPTED)
-        else:
-            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+    #def post(self, request, *args, **kwargs):
+    #    file_serializer = VnfPackageSerializer(data=request.data)
+    #    if file_serializer.is_valid():
+    #        file_serializer.save()
+    #        return Response(file_serializer.data, status=status.HTTP_202_ACCEPTED)
+    #    else:
+    #        return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #
+    #def get(self, request, *args, **kwargs):
+    #    return self.retrieve(request, *args, **kwargs)
 
 
 # class based openAPI
@@ -193,7 +196,7 @@ def extract_zipfile(vnf_pkg_path, vnf_pkg_file):
 
 def send_message(vnf_pkg_path, vnf_pkg_filename):
     # Parse CLODUAMQP_URL (fallback to localhost)
-    url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@172.17.0.2/%2f')
+    url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@' + RABBITMQ_SERVER + '/%2f')
     params = pika.URLParameters(url)
     params.socket_timeout = 5
 

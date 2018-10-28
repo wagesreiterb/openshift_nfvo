@@ -122,13 +122,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -137,7 +133,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# ########## user defined config ###############
 # directory where VNF-Packages are going to be saved after an upload
 # Todo: it might be better to save the packages somewhere in the cloud
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+#MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = "/media"  # for docker

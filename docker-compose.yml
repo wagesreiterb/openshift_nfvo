@@ -6,7 +6,7 @@ services:
     container_name: 'rabbitmq-server'
     image: rabbitmq:3-management
     networks:
-      frontend:
+      my_network:
         ipv4_address: 172.20.0.2
     ports:
     - "15672:15672"
@@ -14,9 +14,9 @@ services:
   nfvo-api:
     container_name: 'nfvo'
     # build: ./python-service
-    build: .
+    build: ./nfvo
     networks:
-      frontend:
+      my_network:
         ipv4_address: 172.20.0.3
     # 'rabbitmq-server' will be available as a network reference inside this service
     # and this service will start only after the RabbitMQ service does.
@@ -24,21 +24,31 @@ services:
       - rabbitmq-server
     # Keep it running.
     tty: true
-    # Map port 3000 on the host machine to port 3000 of the container.
-    # This will be used to receive HTTP requests made to the service.
     ports:
       - "8000:8000"
     volumes:
-      - './media:/media'
+#      - './media:/media'
+      - media:/media
+
+  rabbitmq-consumer:
+    container_name: 'rabbitmq-consumer'
+    build: ./rabbitmq-consumer
+    networks:
+      my_network:
+        ipv4_address: 172.20.0.4
+    depends_on:
+    - rabbitmq-server
+    volumes:
+      - media:/media
+
+
+networks:
+  my_network:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
 
 
 # Host volumes used to store code.
 volumes:
-  python-service:
-
-
-networks:
-  frontend:
-    ipam:
-      config:
-        - subnet: 172.20.0.0/24
+  media:

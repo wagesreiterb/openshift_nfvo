@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-curl -X POST "http://127.20.0.3:8000/vnfpkgm/v1/vnf_packages/" \
+curl -X POST "http://172.20.0.3:8000/vnfpkgm/v1/vnf_packages/" \
     -H  "accept: application/json" \
     -H  "Content-Type: application/json"\
     -H  "X-CSRFToken: CVePEZabbidmzZN2m4KExdbOHLsFPLRMTi7tuNWzAeGe7pShUF4wcD5DEtR90kzy"\
@@ -14,3 +14,4 @@ curl -X POST "http://127.20.0.3:8000/vnfpkgm/v1/vnf_packages/" \
             \"operationalState\": \"DISABLED\",    \
             \"usageState\": \"NOT_IN_USE\"  \
         }"
+echo

@@ -11,8 +11,6 @@ WORKDIR $MY_HOME
 
 COPY ./ /opt/app/
 
-RUN ls -lra /opt/app/
-
 RUN pip3 install -r /opt/app/requirements.txt
 
 ENV DJANGO_ENV=prod
