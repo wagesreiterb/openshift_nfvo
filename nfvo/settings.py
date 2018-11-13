@@ -129,5 +129,5 @@ STATIC_URL = '/static/'
 # ########## user defined config ###############
 # directory where VNF-Packages are going to be saved after an upload
 # Todo: it might be better to save the packages somewhere in the cloud
-MEDIA_URL = '/media/'APP_CONFIG=config.py
+MEDIA_URL = '/media/'
 MEDIA_ROOT = "/media"  # for docker
