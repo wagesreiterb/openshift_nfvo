@@ -83,11 +83,18 @@ WSGI_APPLICATION = 'nfvo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
+#
+# Postgres
+# https://www.youtube.com/watch?v=t6RbanOhna4
+#
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sampledb',
+        'USER': 'user8YW',
+        'PASSWORD': 'J1XiBdu007m4KSYK',
+        'HOST': '172.30.154.218',
+        'PORT': '5432',
     }
 }
 
