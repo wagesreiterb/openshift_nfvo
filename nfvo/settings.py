@@ -26,7 +26,7 @@ SECRET_KEY = 'tqf7tp-oo6c7vuo2678(b7=w49&iot1p%#m274e_b+qzm=h45j'
 DEBUG = True
 
 # Todo: hardcoded IP seems to be not a good idea
-ALLOWED_HOSTS = ['172.20.0.3']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,13 +49,6 @@ SWAGGER_SETTINGS = {
     "exclude_namespaces": ["/openapi/"],    #  List URL namespaces to ignore
 }
 
-# Todo: for permissions - needs to be checked
-# https://hirelofty.com/blog/auto-generate-swagger-docs-your-django-api/
-#REST_FRAMEWORK = {
-#    'DEFAULT_AUTHENTICATION_CLASSES': [
-#        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-#    ],
-#}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'nfvoxx.wsgi.application'
+WSGI_APPLICATION = 'nfvo.wsgi.application'
 
 
 # Database
@@ -137,5 +130,4 @@ STATIC_URL = '/static/'
 # directory where VNF-Packages are going to be saved after an upload
 # Todo: it might be better to save the packages somewhere in the cloud
 MEDIA_URL = '/media/'
-#MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_ROOT = "/media"  # for docker
