@@ -87,16 +87,53 @@ WSGI_APPLICATION = 'nfvo.wsgi.application'
 # Postgres
 # https://www.youtube.com/watch?v=t6RbanOhna4
 #
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'sampledb',
+#        'USER': 'user8YW',
+#        'PASSWORD': 'J1XiBdu007m4KSYK',
+#        'HOST': '172.30.154.218',
+#        'PORT': '5432',
+#    }
+#}
+
+# https://godjango.com/blog/working-with-environment-variables-in-python/
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': os.environ.get('DATABASE_NAME', ''),
+#        'USER': os.environ.get('DATABASE_USER', ''),
+#        'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
+#        'HOST': os.environ.get('DATABASE_HOST', ''),
+#        'PORT': os.environ.get('DATABASE_PORT', ''),
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sampledb',
-        'USER': 'user8YW',
-        'PASSWORD': 'J1XiBdu007m4KSYK',
-        'HOST': '172.30.154.218',
-        'PORT': '5432',
+        'NAME': os.environ.get('POSTGRESQL_DATABASE', ''),
+        'USER': os.environ.get('POSTGRESQL_USER', ''),
+        'PASSWORD': os.environ.get('POSTGRESQL_PASSWORD', ''),
+        'HOST': os.environ.get('POSTGRESQL_SERVICE_HOST', ''),
+        'PORT': os.environ.get('POSTGRESQL_SERVICE_PORT_POSTGRESQL', ''),
     }
 }
+
+#POSTGRESQL_PORT_5432_TCP_ADDR=172.30.14.16
+#POSTGRESQL_PORT=tcp://172.30.14.16:5432
+#POSTGRESQL_SERVICE_PORT_POSTGRESQL=5432
+#POSTGRESQL_PORT_5432_TCP=tcp://172.30.14.16:5432
+#POSTGRESQL_SERVICE_HOST=172.30.14.16
+#POSTGRESQL_DATABASE=sampledb
+#POSTGRESQL_PASSWORD=J1XiBdu007m4KSYK
+#POSTGRESQL_PORT_5432_TCP_PORT=5432
+#POSTGRESQL_VERSION=9.6
+#POSTGRESQL_PREV_VERSION=9.5
+#POSTGRESQL_SERVICE_PORT=5432
+#POSTGRESQL_USER=user8YW
+#POSTGRESQL_PORT_5432_TCP_PROTO=tcp
 
 
 # Password validation
