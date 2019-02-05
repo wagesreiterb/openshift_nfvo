@@ -1,7 +1,7 @@
-Django==2.1.2
-djangorestframework==3.8.2
-pytz==2018.5
-django-rest-swagger==2.2.0
-pika==0.12.0
+Django
+djangorestframework
+pytz
+django-rest-swagger
+pika
 gunicorn
 psycopg2
